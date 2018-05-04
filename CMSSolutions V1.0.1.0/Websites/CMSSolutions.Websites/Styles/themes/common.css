@@ -1,0 +1,86 @@
+﻿.field-validation-error {
+    color:red;display:block
+}
+.login-form {
+    
+}
+.thumbs-size {
+    background-size: 100%;   
+    background-repeat: no-repeat;
+    height: 80px !important;
+    margin-left: -10px;
+    width: 100% !important;
+    border: 3px solid #ddd;
+}
+#logo-group h1 {
+    position: absolute !important;
+    font-weight: bold;
+    padding-left: 10px;
+    text-transform: uppercase;
+}
+#idAreaoEdit0 {
+    height: 500px !important;
+}
+.margin-top {
+    margin-top: 18px;
+}
+.scroll-form .widget-body {
+    overflow-y: scroll !important;
+    height: 400px !important;
+}
+
+.scroll-form .row {
+    margin: 0px !important;
+}
+label {
+    width: 100% !important;
+}
+
+.loading-search {
+    overflow: hidden;   
+}
+.loading-search .modal-loading 
+{
+    display: block;
+}
+.modal-loading {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    border: 1px solid #ccc;
+    height: 100%;
+    width: 100%;
+    background: rgb(249, 247, 247) url('/Images/themes/load.gif') 50% 10% no-repeat;
+    border-radius: 3px;
+    box-shadow: 0 2px 2px -2px #CCCCCC;
+   margin-left: -13px;
+}
+
+.ui-jqgrid .ui-jqgrid-bdiv {
+    overflow: visible !important;
+}
+.row-left {
+    margin-left: 13px !important;
+}
+.row-right {
+      margin-right: 13px !important;  
+}
+
+.form-control-custom {
+    background-color: #fff;
+    background-image: none;
+    border-radius: 0;
+    color: #555;
+    display: block;
+    font-size: 13px;
+    line-height: 1.42857;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    vertical-align: middle;
+    width: 100%;
+}
+ .menu-body {
+     display:inline-block;
+     padding: 13px 0 0;
+     position:relative
+ }

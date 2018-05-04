@@ -1,0 +1,69 @@
+﻿@using MenuItem = CMSSolutions.Web.UI.Navigation.MenuItem
+
+@{
+    var menuItems = (IList<MenuItem>)Model.MenuItems;
+}
+
+@helper DisplayMenuItems(MenuItem menuItem)
+{
+    <li class="@(menuItem.Items.Any() ? "submenu" : "")">
+        <a href="@menuItem.Href">
+            @menuItem.Text
+        </a>
+        @if(menuItem.Items.Any())
+        {
+            <ul>
+                @foreach (var childMenuItem in menuItem.Items)
+                {
+                    @DisplayMenuItems(childMenuItem)
+                }            
+            </ul>
+        }
+    </li>
+}         
+
+<nav>
+    <ul>
+        @foreach (var menuItem in menuItems)
+        {
+            if (menuItem.Items.Any())
+            {
+                <li class="@(menuItem.Selected ? "active" : "")">
+                    <a href="@menuItem.Href" style="cursor: pointer;" class="@menuItem.CssClass">
+                        @if(!string.IsNullOrEmpty(menuItem.IconCssClass))
+                        {
+                            <i class="fa fa-lg fa-fw @menuItem.IconCssClass"></i>
+                        }
+                        <span class="menu-item-parent">@menuItem.Text</span>
+                    </a>
+                    <ul>
+                        @foreach (var childMenuItem in menuItem.Items)
+                        {
+                            @DisplayMenuItems(childMenuItem)
+                        }            
+                    </ul>
+                </li>        
+            }
+            else if(!string.IsNullOrEmpty(menuItem.Href))
+            {
+                
+                <li  class="@(menuItem.Selected ? "active" : "")">
+                    <a title="@menuItem.Text" href="@menuItem.Href">
+                        @if (!string.IsNullOrEmpty(menuItem.IconCssClass))
+                        {
+                            <i class="fa fa-lg fa-fw @menuItem.IconCssClass"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-lg fa-fw @menuItem.CssClass"></i>
+                        }
+                        <span class="menu-item-parent">@menuItem.Text</span>
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+</nav>         
+<span class="minifyme">
+     <i class="fa fa-arrow-circle-left hit"></i> 
+</span>   

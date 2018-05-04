@@ -1,0 +1,32 @@
+﻿@model CMSSolutions.MessageErrorModel
+
+@if (Model != null)
+{
+    <div class="col-md-12">
+        <h2 id="page-title">
+            @Model.TitleForm
+        </h2>
+        <hr/>
+        <div class="row">
+            <p style="color: red; font-size: 14px; font-weight: bold;">
+                @Model.Messages
+            </p>
+        </div>  
+        <button class="btn btn-warning" onclick="goBack()">@Model.GoBackText</button>
+    </div>
+}
+
+<script type="text/javascript">
+    function goBack() {
+        window.location.href = "http://viphd.vn/";
+    }
+    
+    $(document).ready(function () {
+        setTimeout(function () {
+            history.back();
+        }, 20000);
+    });
+</script>
+
+
+

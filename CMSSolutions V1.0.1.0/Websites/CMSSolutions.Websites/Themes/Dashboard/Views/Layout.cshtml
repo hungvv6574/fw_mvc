@@ -1,0 +1,250 @@
+﻿@using CMSSolutions.Websites.Extensions
+@using CMSSolutions.Websites.Permissions
+@using Constants = CMSSolutions.Constants
+@{   
+    Style.IncludeBootstrap(); 
+    Style.IncludeJQueryValidate();
+    Style.IncludeJQueryvalidationEngine();
+    Style.IncludeThemes();
+
+    Script.IncludeJQuery();
+    Script.IncludeJQueryValidate();
+    Script.IncludeJQueryvalidationEngine(WorkContext.CurrentCulture ?? "vi-VN");
+    Script.IncludeBootstrap();
+    Script.IncludeThemes();
+    if (Request.IsAuthenticated)
+    {
+        Style.IncludeJQueryUI();
+        Style.IncludeFancyBox();
+        Style.IncludeTrirandGrid();
+        Style.IncludeElfinder();
+        Style.IncludeChosen();
+        Style.IncludeFullCalendar();
+        Style.IncludeColorPicker();
+        Style.IncludeFineUploader();
+        Style.IncludeIcontFontPicker();
+
+        Script.IncludeFancyBox(); 
+        Script.IncludeKnockout();
+        Script.IncludeFineUploader();
+        Script.IncludeElfinder();
+        Script.IncludeTrirandGrid();
+        Script.IncludeNotification();
+        Script.IncludeEditor(); 
+        Script.IncludeChosen();
+        Script.IncludeFullCalendar();
+        Script.IncludeColorPicker();
+        Script.IncludeIcontFontPicker();
+        Script.IncludeJQueryUI();
+        Script.IncludePlugin();
+    }
+    
+    var bodyCssClass = string.Empty;
+    var idBody = string.Empty;
+    var siteSettings = WorkContext.Resolve<SiteSettings>();
+    //var languages = WorkContext.Resolve<CMSSolutions.Localization.Services.ILanguageService>().GetActiveLanguages();
+    if (!Request.IsAuthenticated)
+    {
+        idBody = "login";
+        bodyCssClass = "animated fadeInDown desktop-detected";
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <link rel="shortcut icon" href="/Images/favicon.ico" type="image/x-icon" />
+
+    <title>@siteSettings.Name</title>     
+
+    @RenderMetas()  
+    @RenderStyles()
+    @RenderHeadScripts()
+    
+</head>
+    <body  id="@idBody" class="@bodyCssClass">
+         @if (User != null && User.Identity.IsAuthenticated)
+         {
+            <header id="header">
+                <div id="logo-group">
+                    <h1>@siteSettings.Name</h1>
+                </div>
+                
+                <div class="menu-body">
+                    <span class="label"></span>
+                    <span class="menu-selector">
+                        <a href="@Url.Content("~/")"><i class="fa fa-home"></i> Trang chủ</a>
+                    </span>
+                </div>
+                
+                <div id="project-context" class="">
+                    <span class="label"></span>
+                    <span data-toggle="dropdown" class="popover-trigger-element dropdown-toggle menu-selector" id="project-selector">
+                        <i class="fa fa-cog"></i> Cài đặt <i class="fa fa-angle-down"></i>
+                    </span>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="@Url.Action("ChangePassword", "Account", new { area = Constants.Areas.Accounts })">Đổi mật khẩu</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Language", new { area = Constants.Areas.Localization })">Ngôn ngữ</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Settings", new { area = Constants.Areas.Core })">Khác ...</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="@Url.Action("ResetCache", "Admin", new { area = AdminPermissions.ManagerAdmin })"><i class="fa fa-refresh"></i> Clear Cache</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pull-right">
+                    <div id="hide-menu" class="btn-header pull-right">
+                        <span> <a href="javascript:void(0);" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+                    </div>
+                    <div id="logout" class="btn-header transparent pull-right">
+                        <span>
+                            <a href="@Url.Action("LogOff", "Account", new { area = Constants.Areas.Accounts })" title="Sign Out"><i class="fa fa-sign-out"></i></a>
+                        </span>
+                    </div>
+                    <div id="search-mobile" class="btn-header transparent pull-right">
+                        <span>
+                            <a href="javascript:void(0)" title="Search"><i class="fa fa-search"></i></a> 
+                        </span>
+                    </div>
+                    <div class="btn-header transparent pull-right">
+                        <span>
+                            <a href="@Url.Action("ResetCache", "Admin", new { area = AdminPermissions.ManagerAdmin })" title="Reset Cache"><i class="fa fa-refresh"></i></a>
+                        </span>
+                    </div>
+
+                    @*<ul class="header-dropdown-list hidden-xs">
+                        <li>  
+                            @if (languages != null && languages.Any())
+                            {
+                                var list = languages.Where(x => x.Theme == "Dashboard").ToList();
+                                foreach (var language in list)
+                                {
+                                    if (WorkContext.CurrentCulture != null && language.CultureCode == WorkContext.CurrentCulture)
+                                    {
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <img alt="" src="/Images/flags/@(language.CultureCode+ ".png")"> 
+                                            <span> @language.Name </span> 
+                                        </a>
+                                    }
+                                }
+                                <ul class="dropdown-menu pull-right">
+                                    @foreach (var language in list)
+                                    {
+                                        <li class="@(language.CultureCode == WorkContext.CurrentCulture ? "active" : string.Empty)">
+                                            <a href="javascript:void(0);" onclick="document.cookie = 'CurrentCulture=; expires=Sat, 1 Jan 1970 17:00:00 GMT; path=/'; document.cookie = 'CurrentCulture=@language.CultureCode; path=/'; window.location = window.location;">
+                                                <img alt="" src="/Images/flags/@(language.CultureCode+ ".png")"> @language.Name
+                                            </a>
+                                        </li>
+                                    } 
+                                </ul>
+                            }
+                        </li>
+                    </ul>*@
+
+                </div>   
+            </header>
+        }
+
+        @if (User != null && User.Identity.IsAuthenticated)
+        {
+            <aside id="left-panel">
+                <div class="login-info">
+                    <span> 
+                        <img src="/Images/avatars/male.png" alt="me" class="online" /> 
+                        <a href="@Url.Action("Manage", "Account", new { area = Constants.Areas.Accounts})" >
+                            @(WorkContext.CurrentUser != null ? WorkContext.CurrentUser.FullName : string.Empty)
+                        </a>
+                    </span> 
+                </div>
+		
+                @Display(WorkContext.Layout.Navigation)
+            </aside>
+        }
+
+        <div id="main" role="main">
+            @if (User != null && User.Identity.IsAuthenticated)
+            {
+                <div id="ribbon">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="@Url.Action("Index", "Admin", new { area = "" })"><i class="icon-home"></i>@T("Home")</a>
+                        </li>
+                        @foreach (var item in WorkContext.Breadcrumbs)
+                        {
+                            <li>
+                                <a href="@item.Url" title="@item.Text"><i class="@item.IconCssClass"></i>@item.Text</a>
+                            </li>    
+                        }
+                    </ol>
+                </div>
+            }
+
+            <div id="content">
+                @if (User != null && User.Identity.IsAuthenticated)
+                {
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <h1 class="page-title txt-color-blueDark">
+                                <i class="fa-fw fa fa-home"></i> @ViewBag.Title
+                            </h1>
+                        </div>
+                    </div>
+                }
+                <section id="widget-grid">
+                    @Display(WorkContext.Layout.Content)    
+                    <div class="modal-loading"></div>
+                </section>
+            </div>
+        </div>
+
+        @RenderFootScripts()
+        @if (Request.IsAuthenticated)
+        {
+             <script type="text/javascript">
+                 $(document).ready(function() {
+                     $('[data-toggle="fancybox"]').fancybox({
+                         autoSize: false,
+                         modal: true,
+                         scrolling: 'no',
+                         autoHeight: true,
+                         minHeight: 450,
+                         iframe: {
+                             scrolling: 'no',
+                             preload: false
+                         },
+                         beforeLoad: function() {
+                             var width = this.element.data('fancybox-width');
+                             if (width) {
+                                 this.width = parseInt(width);
+                             }
+
+                             var height = this.element.data('fancybox-height');
+                             if (height) {
+                                 this.height = parseInt(height);
+                             }
+
+                             if (this.type == "iframe") {
+                                 this.padding = 0;
+                             }
+                         }
+                     });
+                 });
+                 
+                 function InputEnterEvent(e, table) {
+                     if (e.keyCode == 13) {
+                         $('#' + table).jqGrid().trigger('reloadGrid');
+                     }
+                 }
+             </script>
+         }
+    </body>
+</html>

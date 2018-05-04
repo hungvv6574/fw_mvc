@@ -1,0 +1,60 @@
+# Begin robots.txt file
+
+User-agent: *
+Disallow: /App_Start/
+Disallow: /App_Data/
+Disallow: /bin/
+Disallow: /Media/
+Disallow: /Images/
+Disallow: /Scripts/
+Disallow: /Styles/
+Disallow: /Themes/
+Disallow: /Views/
+
+User-agent: msnbot
+Disallow: /App_Start/
+Disallow: /App_Data/
+Disallow: /bin/
+Disallow: /Media/
+Disallow: /Images/
+Disallow: /Scripts/
+Disallow: /Styles/
+Disallow: /Themes/
+Disallow: /Views/
+Crawl-delay: 5
+
+User-agent: Slurp
+Disallow: /App_Start/
+Disallow: /App_Data/
+Disallow: /bin/
+Disallow: /Media/
+Disallow: /Images/
+Disallow: /Scripts/
+Disallow: /Styles/
+Disallow: /Themes/
+Disallow: /Views/
+Crawl-delay: 5
+
+User-agent: Googlebot
+Disallow: /App_Start/
+Disallow: /App_Data/
+Disallow: /bin/
+Disallow: /Media/
+Disallow: /Images/
+Disallow: /Scripts/
+Disallow: /Styles/
+Disallow: /Themes/
+Disallow: /Views/
+
+User-agent: Yahoo Pipes 1.0
+Disallow: /App_Start/
+Disallow: /App_Data/
+Disallow: /bin/
+Disallow: /Media/
+Disallow: /Images/
+Disallow: /Scripts/
+Disallow: /Styles/
+Disallow: /Themes/
+Disallow: /Views/
+
+# End of robots.txt file

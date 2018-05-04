@@ -1,0 +1,130 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using CMSSolutions.Localization
+@model CMSSolutions.Web.Security.Models.LoginModel
+@{
+    Localizer T = NullLocalizer.Instance;
+}
+
+<div class="row">
+    <div class="col-md-3 col-md-offset-5">
+        <div class="row">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    @*<img src="#">*@
+                </a>
+            </div>
+        </div>
+
+        <div class="well no-padding">
+            <form id="login-form" class="smart-form client-form" method="POST">
+                <header>
+                    <i class="fa fa-lg fa-user"></i> @T("Sign In")
+                </header>
+                <div class="validation-summary" data-valmsg-summary="true">
+                    <ul></ul>
+                </div>
+                <fieldset>
+                    <section>
+                        <label class="label">@T("User Name")</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-user"></i>
+                            <input type="text" name="UserName" placeholder="@T("User name")" id="UserName" class="validate[required, minSize[0], maxSize[255]] actionlogin">
+                        </label>
+                    </section>
+
+                    <section>
+                        <label class="label">@T("Password")</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-lock"></i>
+                            <input type="password" name="Password" id="Password" placeholder="Password" class="validate[required] actionlogin">
+                        </label>
+                        @if (Model.AllowForgotPassword)
+                        {
+                            <div class="note">
+                                <a href="@Url.Action("Recovery")">@T("Forgot password ?")</a>
+                            </div>
+                        }  
+                    </section>
+
+                    <section>
+                        <label class="checkbox">
+                            <input type="checkbox"  value="true" name="RememberMe" id="RememberMe"> 
+                            <i></i>@T("Remember me")
+                        </label>
+                        <input type="hidden" value="false" name="RememberMe">
+                    </section>
+                    
+                    <div style="display: none;">
+                        <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@Model.ReturnUrl">
+                    </div>
+                </fieldset>
+                <footer>
+                    @if (Model.AllowRegisterUser)
+                    {
+                        <a href="@Url.Action("Register")" class="btn btn-info pull-left">
+                            <i class="fa fa-pencil-square"></i> @T("Register")
+                        </a>  
+                    }
+                    <button class="btn btn-success" type="button" id="btnLogin" name="btnLogin">
+                        <i class="fa fa-sign-in"></i> @T("Sign in")
+                    </button>
+                </footer>
+            </form>
+        </div>
+    </div>	
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-3 col-md-offset-5">
+        <div class="copyright">
+            2015 © CMSSOLUTIONS - <a href="http://laptrinhmvc.com" style="color: #999999;">V1.0.1.0</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#login-form").validationEngine();
+        $('#btnLogin').click(function () {
+            login();
+        });
+        
+        $(document).on("keypress", ".actionlogin", function (e) {
+            if (e.which == 13) {
+                login();
+            }
+        });
+    });
+
+    function login() {
+        if (!validate()) {
+            return;
+        }
+
+        var data = $("#login-form").find("input").serialize();
+        $.ajax({
+            url: '@Url.Action("UserLogin", "Account")',
+            data: data,
+            type: 'POST',
+            dataType: 'json',
+            success: function(result) {
+                if (result.Status) {
+                    window.location = result.GoBackText;
+                } else {
+                    $('#login-form .validation-summary').addClass('alert alert-danger').html('<span>' + result.Messages + '</span>').show('slow');
+                    setTimeout(function() {
+                        {
+                            $('#login-form .validation-summary').hide('slow');
+                        }
+                    }, 5000);
+                }
+
+            }
+        });
+    }
+    
+    function validate() {
+        return $("#login-form").validationEngine('validate');
+    }
+</script>

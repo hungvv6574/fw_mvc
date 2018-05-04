@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Thông báo</title>
+    <script src="/Scripts/jquery/jquery.min.js"></script>
+    <script type="text/javascript">
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        
+        $(document).ready(function () {
+            var statusCode = getParameterByName('statusCode');
+            var html = "";
+            if (statusCode == 0) {
+                document.title = "Thông báo lỗi xử lý";
+                html += "<img src='/Media/Default/ErrorMessages/loikhongxacdinh.jpg' />";
+                html += "<div style='width: 100%'>";
+                html += "<h2 style='color: #44619d;'>Hệ thống đã ghi nhận lỗi. Chúng tôi sẽ xử lý ngay lỗi này bạn thông cảm nhé.</h2>";
+                html += "</div>";
+                $("#message").html(html);
+            } else {
+                document.title = "Thông báo bảo trì";    
+                html += "<img src='/Media/Default/ErrorMessages/baotrihethong.jpg' />";
+                html += "<div style='width: 100%'>";
+                html += "<h2 style='color: #44619d;'>Hệ thống sẽ hoạt động trở lại sau một thời gian ngắn bạn vui lòng quay trở lại sau nhé.</h2>";
+                html += "</div>";
+                $("#message").html(html);
+            }
+        });
+    </script> 
+</head>
+    <body>    
+        <div id="message" style="width: 100%;text-align: center;">
+
+        </div>   
+    </body>
+</html>  

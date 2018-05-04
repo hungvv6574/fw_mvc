@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    @RenderMetas()
+    <title>@ViewBag.Title</title>
+    @RenderStyles()
+    @RenderHeadScripts()
+</head>
+<body class="minimal-layout">
+    <div id="divWrapContent">
+        @Display(WorkContext.Layout.Messages)
+        @Display(WorkContext.Layout.Content)
+    </div>
+
+    @RenderFootScripts()
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".fancybox-inner .box-header h2", window.parent.document).html(document.title);
+            if (parent.top.$.fancybox.current) {
+                var height = $("#divWrapContent").height();
+                var viewPortHeight = $(window.top).height() - 50;
+                if (height > viewPortHeight) {
+                    height = viewPortHeight;
+                } else {
+                    height += 50;
+                    if (height > viewPortHeight) {
+                        height = viewPortHeight;
+                    }
+                }
+                parent.top.$.fancybox.current.height = height;
+                parent.top.$.fancybox.update();
+            }
+        });
+    </script>
+</body>
+</html>
